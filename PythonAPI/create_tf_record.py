@@ -18,7 +18,7 @@ r"""Convert raw COCO dataset to TFRecord for object_detection.
 Please note that this tool creates sharded output files.
 
 Example usage:
-    python create_coco_tf_record.py --logtostderr \
+    python create_tf_record.py --logtostderr \
       --train_image_dir="${TRAIN_IMAGE_DIR}" \
       --val_image_dir="${VAL_IMAGE_DIR}" \
       --test_image_dir="${TEST_IMAGE_DIR}" \
@@ -26,6 +26,16 @@ Example usage:
       --val_annotations_file="${VAL_ANNOTATIONS_FILE}" \
       --testdev_annotations_file="${TESTDEV_ANNOTATIONS_FILE}" \
       --output_dir="${OUTPUT_DIR}"
+
+
+    python create_tf_record.py --logtostderr \
+      --train_image_dir="/home/linu/personal/Data/d2s_annotations_v1.1/train/" \
+      --val_image_dir="/home/linu/personal/Data/images/" \
+      --test_image_dir="/home/linu/personal/Data/images/" \
+      --train_annotations_file="/home/linu/personal/Data/d2s_annotations_v1.1/annotations/D2S_training.json" \
+      --val_annotations_file="/home/linu/personal/Data/d2s_annotations_v1.1/annotations/D2S_validation.json" \
+      --testdev_annotations_file="/home/linu/personal/Data/d2s_annotations_v1.1/annotations/D2S_test_info.json" \
+      --output_dir="/home/linu/personal/Data/tf/"
 """
 from __future__ import absolute_import
 from __future__ import division
