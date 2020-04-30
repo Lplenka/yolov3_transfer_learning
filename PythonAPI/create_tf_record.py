@@ -274,19 +274,22 @@ def main(_):
       FLAGS.train_image_dir,
       train_output_path,
       FLAGS.include_masks,
-      num_shards=100)
+      #num_shards=100)
+      num_shards=1)
   _create_tf_record_from_coco_annotations(
       FLAGS.val_annotations_file,
       FLAGS.val_image_dir,
       val_output_path,
       FLAGS.include_masks,
-      num_shards=10)
+      #num_shards=10)
+      num_shards=1)
   _create_tf_record_from_coco_annotations(
       FLAGS.testdev_annotations_file,
       FLAGS.test_image_dir,
       testdev_output_path,
       FLAGS.include_masks,
-      num_shards=100)
+      num_shards=1)
+      #num_shards=100)
 
 
 if __name__ == '__main__':
