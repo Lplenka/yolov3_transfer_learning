@@ -1,0 +1,10 @@
+python train.py \
+	--dataset ./tf/coco_train.record-00000-of-00001 \
+	--val_dataset ./tf/coco_val.record-00000-of-00001 \
+	--classes ./d2s.names \
+	--num_classes 60 \
+	--mode fit --transfer darknet \
+	--batch_size 16 \
+	--epochs 10 \
+	--weights ./checkpoints/yolov3.tf \
+	--weights_num_classes 80 

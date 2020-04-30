@@ -1,0 +1,7 @@
+python create_tf_record.py \
+    --logtostderr \
+    --train_image_dir="/home/linu/personal/Data/d2s_annotations_v1.1/train/" \
+    --val_image_dir="/home/linu/personal/Data/images/" \
+    --test_image_dir="/home/linu/personal/Data/images/" \
+    --train_annotations_file="/home/linu/personal/Data/d2s_annotations_v1.1/annotations/D2S_training.json" \       --val_annotations_file="/home/linu/personal/Data/d2s_annotations_v1.1/annotations/D2S_validation.json"       --testdev_annotations_file="/home/linu/personal/Data/d2s_annotations_v1.1/annotations/D2S_test_info.json" \
+    --output_dir="/home/linu/personal/Data/tf/"
