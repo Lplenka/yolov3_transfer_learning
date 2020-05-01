@@ -6,14 +6,18 @@ import shutil
 from pycocotools.coco import COCO
 
 from tqdm import tqdm
-
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd 
 logging.basicConfig(level=logging.ERROR)
 logging.getLogger().setLevel(logging.WARNING)
 logging.getLogger('parso.python.diff').disabled = True
 
 """
 Eample Usage
-In [1]: from merge_annotations import Merge_Annotations                                                                                                                 
+
+For Merging Annotations
+In [1]: from annotations import Annotations                                                                                                                 
 
 In [2]: ann_dir = "/home/linu/personal/Data/annotations_"                                                                                                               
 
@@ -46,10 +50,46 @@ In [3]: cas = Merge_Annotations(ann_dir=ann_dir)
 In [4]: cas.merge()                                                                                                                                                     
 Merging annotations
 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 25.81it/s]
+
+For Frequency Distribution
+Eample Usage
+In [1]: from annotations import Annotations                                                                                                                 
+
+In [2]: ann_dir = "/home/linu/personal/Data/annotations_"                                                                                                               
+
+In [3]: cas = Merge_Annotations(ann_dir=ann_dir)                                                                                                                        
+                loading annotations into memory...
+                Done (t=0.06s)
+                creating index...
+                index created!
+                loading annotations into memory...
+                Done (t=0.02s)
+                creating index...
+                index created!
+                loading annotations into memory...
+                Done (t=0.01s)
+                creating index...
+                index created!
+                loading annotations into memory...
+                Done (t=0.00s)
+                creating index...
+                index created!
+                loading annotations into memory...
+                Done (t=0.02s)
+                creating index...
+                index created!
+                loading annotations into memory...
+                Done (t=0.12s)
+                creating index...
+                index created!
+
+In [4]: cas.show_frequency(save=False)                                                                                                                                                     
+Merging annotations
+100%|████████████████████████████████
 """
 
 
-class Merge_Annotations():
+class Annotations():
     def __init__(self, ann_dir=None):
         """
         :param ann_dir (str): path to annotations folder.
@@ -168,3 +208,34 @@ class Merge_Annotations():
 
         with open(dst_ann, 'w') as aw:
             json.dump(cann, aw)
+
+
+    def show_frequency(self, save=False):
+        # Making axes iterable if only single annotation is present
+        # Prepare annotations dataframe
+        # This should be done at the start
+
+        for ann, name in zip(self.annfiles, self.names):
+            ann_df = pd.DataFrame(ann.anns).transpose()
+            print("name:", name)
+            print("hello", ann_df.columns)
+            if len(ann_df) > 0:
+                if 'category_id' in ann_df.columns:
+                    #print(ann_df['category_id'].value_counts())
+                    category_count = ann_df['category_id'].value_counts()
+                    #category_count = category_count[:10, ]
+                    plt.figure(figsize=(20, 10))
+                    sns.barplot(category_count.index,
+                                category_count.values, alpha=0.8)
+                    plt.title('Frequency Bar plot')
+                    plt.ylabel('Number of Occurrences', fontsize=12)
+                    plt.xlabel('city', fontsize=12)
+                    plt.show()
+                    out_dir = os.path.join(os.getcwd(), 'results', 'plots')
+                    if save is True:
+                        if os.path.exists(out_dir) is False:
+                            os.makedirs(out_dir)
+                            plt.savefig(os.path.join(out_dir, name + "cat_dist"+ ".png"),
+                                        bbox_inches='tight',
+                                        pad_inches=1,
+                                        dpi=plt.gcf().dpi)
