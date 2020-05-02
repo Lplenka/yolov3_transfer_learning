@@ -168,8 +168,10 @@ def main(_argv):
 
             avg_loss.reset_states()
             avg_val_loss.reset_states()
-            model.save_weights(
-                'checkpoints/yolov3_train_{}.tf'.format(epoch))
+            if (epoch % 2 == 0 or epoch == FLAGS.epochs):
+                print("Saving epoch every second epoch and for the last epoch")
+                model.save_weights(
+                    'checkpoints/yolov3_train_{}.tf'.format(epoch))
     else:
         model.compile(optimizer=optimizer, loss=loss,
                       run_eagerly=(FLAGS.mode == 'eager_fit'))
@@ -178,7 +180,7 @@ def main(_argv):
             ReduceLROnPlateau(verbose=1),
             EarlyStopping(patience=3, verbose=1),
             ModelCheckpoint('checkpoints/yolov3_train_{epoch}.tf',
-                            verbose=1, save_weights_only=True),
+                            verbose=1, save_best_only=True, mode=min, save_weights_only=True),
             TensorBoard(log_dir='logs')
         ]
 
