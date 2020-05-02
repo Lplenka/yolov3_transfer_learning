@@ -84,8 +84,6 @@ In [3]: cas = Merge_Annotations(ann_dir=ann_dir)
                 index created!
 
 In [4]: cas.show_frequency(save=False)                                                                                                                                                     
-Merging annotations
-100%|████████████████████████████████
 """
 
 
@@ -225,17 +223,20 @@ class Annotations():
                     category_count = ann_df['category_id'].value_counts()
                     #category_count = category_count[:10, ]
                     plt.figure(figsize=(20, 10))
-                    sns.barplot(category_count.index,
+                    sns_plot = sns.barplot(category_count.index,
                                 category_count.values, alpha=0.8)
-                    plt.title('Frequency Bar plot')
+                    fig = sns_plot.get_figure()
+                    plt.title( name + ' Frequency Bar plot')
                     plt.ylabel('Number of Occurrences', fontsize=12)
-                    plt.xlabel('city', fontsize=12)
-                    plt.show()
+                    plt.xlabel('Catergory_id', fontsize=12)
                     out_dir = os.path.join(os.getcwd(), 'results', 'plots')
                     if save is True:
                         if os.path.exists(out_dir) is False:
                             os.makedirs(out_dir)
-                            plt.savefig(os.path.join(out_dir, name + "cat_dist"+ ".png"),
-                                        bbox_inches='tight',
-                                        pad_inches=1,
-                                        dpi=plt.gcf().dpi)
+                        plt.savefig(os.path.join(
+                            out_dir, name + "_cat_dist.png"), pad_inches=1)
+                        # plt.savefig(os.path.join(out_dir, name + "cat_dist"+ ".png"),
+                        #             bbox_inches='tight',
+                        #             pad_inches=1,
+                        #             dpi=plt.gcf().dpi)
+                    plt.show()
